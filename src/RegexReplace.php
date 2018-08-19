@@ -94,7 +94,9 @@ class RegexReplace extends BaseModule
 
         $replacement = new Replacement();
         $replacement->find = $matches[1];
-        $replacement->replace = $matches[2];
+        
+        // unescape the things preg_quote would normally escape/quote.
+        $replacement->replace = preg_replace('/\\\\(\\\\|\+|\*|\?|\[|\]|\^|\$|\(|\)|\{|\}|\=|\!|\<|\>|\||\:|\-|\.|\/)/', '$1', $matches[2]);
         $replacement->flags = $matches[3] ?? '';
 
         return $replacement;
